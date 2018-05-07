@@ -1,0 +1,52 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>无刷新分页</title>
+    <!-- Style -->
+    <link href="~/Content/tablecloth.css" rel="stylesheet" />
+    <style>
+        a {
+            color:#ffffff;
+            text-decoration:none;
+        }
+        th {
+            height:50px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div style="text-align: center;">
+    <h1>无刷新分页案例演示</h1>
+</div>
+<div id="container">
+    <table id="Result" cellspacing="0" cellpadding="0">
+        <tr>
+            <th><a href="/PageOne/Index">无刷新分页演示一</a></th>
+        </tr>
+        <tr>
+            <th><a href="/PageTwo/Index">无刷新分页演示二</a></th>
+        </tr>
+        <tr>
+            <th><a href="/PageThree/Index">无刷新分页演示三</a></th>
+        </tr>
+        <tr>
+            <th><a href="/PageTwo/Ajax">无刷新分页演示四</a></th>
+        </tr>
+        <tr>
+            <th><a href="/PageFive/Index">无刷新分页演示五</a></th>
+        </tr>
+        <tr>
+            <th><a href="/PageSix/Index">* 刷新分页演示一</a></th>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

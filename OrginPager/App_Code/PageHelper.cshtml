@@ -1,0 +1,116 @@
+﻿@*
+    ASP.NET MVC5 实现分页查询 - CSDN博客 https://blog.csdn.net/gk04ose4/article/details/56687064
+    amount：数据总数，count：每页显示的数据条数，redierctUrl点击按钮时的跳转链接
+    页面上需引用：bootstrap.min.css
+*@
+
+@helper CreatePaginateButton(int amount, int count, string redirectUrl)
+{
+    <div id="pagenumber" style="text-align:center;width:84%">
+        <nav style="text-align:center">
+            <ul class="pagination">
+                <li><a href="@redirectUrl/1">首页</a></li>
+                @{
+                    int pageNumber = (int)Math.Ceiling(amount / (count * 1.0));
+                    pageNumber = pageNumber < 1 ? 1 : pageNumber;
+                    //页面上显示的按钮数目（不计首页、末页、上一页、下一页等按钮），若页面总数超过该值则绘制按钮分隔符
+                    const int buttonCount = 7;
+                    // 按钮分隔符
+                    const string buttonSeparator = "......";
+                    //按钮分隔符左侧按钮数目（不计首页、末页、上一页、下一页等按钮）
+                    const int leftButtonCount = 4;
+                    //按钮分隔符右侧按钮数目（不计首页、末页、上一页、下一页等按钮）
+                    const int rightButtonCount = 2;
+
+                    string[] urlSegments = Request.Url.Segments;
+                    int selectedIndex = 0;
+                    int.TryParse(urlSegments[urlSegments.Length - 1], out selectedIndex);
+                    int previous = (selectedIndex - 1) <= 0 ? 1 : selectedIndex - 1;
+                    int next = (selectedIndex + 1 > pageNumber) ? pageNumber : selectedIndex + 1;
+                    var r = Request.Cookies[""];
+                    if (pageNumber > buttonCount)
+                    {
+                        <li><a id="next" href="@redirectUrl/@previous">上一页</a></li>
+                        for (int i = 1; i <= buttonCount; i++)
+                        {
+                            if (selectedIndex >= leftButtonCount && selectedIndex % leftButtonCount == 0 && i <= leftButtonCount)
+                            {
+                                <li><a name="pageButton" id="@selectedIndex" href="@redirectUrl/@selectedIndex">@selectedIndex</a></li>
+                                int step = selectedIndex;
+                                for (i = 1; i <= leftButtonCount; i++)
+                                {
+                                    var tag = i + step;
+                                    if (tag > pageNumber - rightButtonCount)
+                                    {
+                                        if (i <= leftButtonCount)
+                                        {
+                                            i = leftButtonCount + 1;
+                                        }
+                                        break;
+                                    }
+                                    <li><a name="pageButton" id="@tag" href="@redirectUrl/@tag">@tag</a></li>
+                                }
+                            }
+                            else if (i <= leftButtonCount && selectedIndex < leftButtonCount)
+                            {
+                                <li><a name="pageButton" id="@i" href="@redirectUrl/@i">@i</a></li>
+                            }
+                            else if (i < leftButtonCount && selectedIndex > leftButtonCount)
+                            {
+                                int step = selectedIndex / leftButtonCount;
+                                <li><a name="pageButton" id="@(step*leftButtonCount)" href="@redirectUrl/@(step*leftButtonCount)">@(step * leftButtonCount)</a></li>
+                                for (i = 1; i <= leftButtonCount; i++)
+                                {
+                                    var tag = i + step * leftButtonCount;
+                                    if (tag > pageNumber - rightButtonCount)
+                                    {
+                                        if (i <= leftButtonCount)
+                                        {
+                                            i = leftButtonCount + 1;
+                                        }
+                                        break;
+                                    }
+                                    <li><a name="pageButton" id="@tag" href="@redirectUrl/@tag">@tag</a></li>
+                                }
+                            }
+                            //绘制按钮分隔符右侧按钮
+                            if (i == buttonCount - 1)
+                            {
+                                <li><a name="pageButton" id="@(pageNumber-1)" href="@redirectUrl/@(pageNumber-1)">@(pageNumber - 1)</a></li>
+                            }
+                            else if (i == buttonCount)
+                            {
+                                <li><a name="pageButton" id="@pageNumber" href="@redirectUrl/@pageNumber">@pageNumber</a></li>
+                            }
+                            //绘制按钮分隔符
+                            else if (i >= buttonCount - rightButtonCount)
+                            {
+                                <li><span name="pageButton">@buttonSeparator</span></li>
+                            }
+                        }
+                        <li><a id="next" href="@redirectUrl/@next">下一页</a></li>
+                    }
+                    else
+                    {
+                        for (int i = 1; i <= pageNumber; i++)
+                        {
+                            <li><a name="pageButton" id="@i" href="@redirectUrl/@i">@i</a></li>
+                        }
+                    }
+                }
+                <li><a href="@redirectUrl/@pageNumber">末页</a></li>
+            </ul>
+        </nav>     
+    </div>
+    <script type="text/javascript">
+        $(function() {
+            //设置被选中按钮的背景色
+            var selected = $('#@selectedIndex');
+            if (selected != undefined) {
+                selected.css('background-color', '#E1E1E1');
+            }
+        });
+    </script>
+}
+
+

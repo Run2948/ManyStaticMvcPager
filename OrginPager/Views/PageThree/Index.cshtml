@@ -1,0 +1,91 @@
+﻿@using PagedList
+@using PagedList.Mvc
+@model StaticPagedList<OrginPager.Models.Person>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>无刷新分页</title>
+    <!-- Style -->
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+    <link href="~/Content/tablecloth.css" rel="stylesheet" />
+    <!-- Script -->
+    <script src="~/Scripts/jquery-1.4.4.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script type="text/javascript">
+        function regJs() {
+            $("#pager > .pagination-container > .pagination > li > a").click(function () {
+                var pageUrl = $(this).attr("href");
+                if (pageUrl !== undefined) {
+                    var queryStr = $("#ajax-form").serialize();
+                    $(this).attr("href", pageUrl + "&" + queryStr);
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <div style="text-align: center;">
+        <h1>无刷新分页演示三  -- MVC + SqlHelper + PagedList.Mvc</h1>
+    </div>
+    @*<div id="container">
+            <table id="Result" cellspacing="0" cellpadding="0">
+                <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>名称</th>
+                    </tr>
+                </thead>
+                @if (Model != null && Model.Count > 0)
+                {
+                    <tbody id="div-result">
+                        @foreach (var p in Model)
+                        {
+                            <tr>
+                                <td>@p.Id</td>
+                                <td>@p.Name</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot id="Pagination">
+                        <tr>
+                            <td colspan="2" id="pager">
+                                每页 @Model.PageSize 条记录，共 @Model.PageCount 页，当前第 @Model.PageNumber 页，合计 @Model.TotalItemCount 条记录
+                                @Html.PagedListPager(Model, page => Url.Action("Index", new
+                                {
+                                    page
+                                }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions
+                                {
+                                    HttpMethod = "Post",
+                                    InsertionMode = InsertionMode.Replace,
+                                    UpdateTargetId = "div-result",
+                                    OnComplete = "regJs"
+                                }))
+                            </td>
+                        </tr>
+                    </tfoot>
+                }
+                else
+                {
+                    <tbody>
+                        <tr>
+                            <th class="text-center">不存在符合条件的数据!</th>
+                        </tr>
+                    </tbody>
+                }
+            </table>
+        </div>*@
+<div id="div-result">
+    @Html.Partial("_Index", Model)
+</div>
+    <div style="text-align: center;padding-left:36%;">
+        <p>@Html.ActionLink("回到首页", "Index", "Home")</p>
+    </div>
+</body>
+</html>

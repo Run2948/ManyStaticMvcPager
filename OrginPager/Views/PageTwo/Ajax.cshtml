@@ -1,0 +1,146 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>无刷新分页</title>
+    <link href="~/Content/tablecloth.css" rel="stylesheet" />
+    <link href="~/Content/pagination.css" rel="stylesheet" />
+    <script src="http://code.jquery.com/jquery-1.11.3.js"></script>
+    <script src="~/Scripts/jsrender.min.js"></script>
+    <script type="text/javascript">
+        //        $(function () {
+//            getPersonByAjax(1);
+//        });
+        $(function () {
+            getPerson();
+        });
+
+        var getPerson = function () {
+            var pageNumber;
+            if (arguments[0] == null) {
+                var hash = (window.location.hash);
+                if (hash)
+                    pageNumber = hash.slice(1);
+                else {
+                    pageNumber = 1;
+                    window.location.hash = pageNumber;
+                }
+            }
+            else {
+                pageNumber = arguments[0];
+                window.location.hash = pageNumber;
+            }
+            getPersonByAjax(pageNumber);
+        }
+
+        var getPersonByAjax = function (pageNumber) {
+//            $.getJSON("/PageTwo/AjaxPage",
+//                    { "page": pageNumber })
+//                .success(function (data) {
+//                    $("#personList").empty();
+//                    //JsRender渲染、渲染结果（字符串）插入容器
+//                    $("#personList").append($("#personListTemplate").render(data.persons));
+//                    $("#pager").html($("#pagerTemplate").render(data.pager));
+//                })
+//                .error(function (textStatus) {
+//                    alert("msg:" + textStatus.statusText);
+//                })
+//                .complete(function (jqXHQ) {
+//                    jqXHQ = null;
+//                });
+
+            $.getJSON("/PageTwo/AjaxPage",
+                { "page": pageNumber },
+                function (data) {
+                    $("#personList").empty();
+                    //JsRender渲染、渲染结果（字符串）插入容器
+                    $("#personList").append($("#personListTemplate").render(data));
+                    $("#pager").html($("#pagerTemplate").render(data.pager));
+                });
+        }
+    </script>
+</head>
+<body>
+    @*//绑定模板*@
+    <script type="text/x-jsrender" id="personListTemplate">
+        {{for persons}}
+        <tr>
+            <td>{{:Id}}</td>
+            <td>{{:Name}}</td>
+        </tr>
+        {{/for}}
+    </script>
+    @*//分页模板*@
+<script type="text/x-jsrender" id="pagerTemplate">
+        <div style='float: left; width: 50%'>共 {{:PageCount}}页{{:TotalItemCount}}条记录，当前为第{{:PageNumber}}页</div>
+        <div class='pagination'>
+            {{if HasPreviousPage}}
+            <a href="javascript:;" onclick="getPersonByAjax(1);return false;">首页</a>
+            <a href="javascript:;" onclick="getPersonByAjax({{:PageNumber - 1}});return false;">上一页</a>
+            {{else}}
+            <span class='stop'>首页</span>
+            <span class='stop'>上一页</span>
+            {{/if}}
+
+            @*{{for PageCount}}
+                {{if #getIndex()+1 === pageNumber }}
+                    <span class='current'>{{:#index+1}}</span>
+                {{else}}
+                    <a href='javascript:;' onclick='getPersonByAjax({{:#index+1}});return false;'>{{:#index+1}}</a>
+                {{/if}}
+             {{/for}}*@          
+
+            {{if HasNextPage}}
+            <a href="javascript:;" onclick="getPersonByAjax({{:PageNumber + 1}});return false;">下一页</a>
+            <a href="javascript:;" onclick="getPersonByAjax({{:PageCount}});return false;">尾页</a>
+            {{else}}
+            <span class='stop'>下一页</span><span class='stop'>尾页</span>
+            {{/if}}
+        </div>  
+    </script>
+<script>
+    $.views.helpers({
+        getPager: function (pageCount, currentPage) {
+            var html = "";
+            for (var i = 1; i <= pageCount; i++) {
+                if (i === currentPage)
+                    html += "<span class='current'>" + i + "</span>";
+                else
+                    html += "<a href='#' onclick='getPersonByAjax(" + i + ");return false;'>" + i + "</a>";
+            }
+            return html;
+        }
+    });
+</script>
+    <div style="text-align: center;">
+        <h1>无刷新分页演示四  -- MVC + SqlHelper + PagedList.Mvc + PagedList + Ajax + JsRender </h1>
+    </div>
+    <div id="container">
+        <table id="Result" cellspacing="0" cellpadding="0">
+            <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>名称</th>
+                </tr>
+            </thead>
+            <tbody id="personList">
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2" id="pager"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div style="text-align: center;padding-left:36%;">
+        <p>@Html.ActionLink("回到首页", "Index", "Home")</p>
+    </div>
+</body>
+</html>

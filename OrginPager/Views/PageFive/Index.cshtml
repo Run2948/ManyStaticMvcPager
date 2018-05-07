@@ -1,0 +1,66 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model PagedList<OrginPager.Models.Person>
+@{
+    Layout = null;
+    ViewBag.Title = "无刷新分页";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <!-- Styles -->
+    <link href="~/Content/pagination.css" rel="stylesheet" />
+    <link href="~/Content/tablecloth.css" rel="stylesheet" />
+    <!-- JQuery 版本 小于 1.7.0 时： 无法使用  -->
+    <!-- JQuery 版本 在 1.7.0  -  1.8.3 之间时：直接使用 -->
+    <!-- JQuery 版本 大于或等于 1.8.3 时：
+    1.需要引入 jquery-migrate: Migrate older jQuery code to jQuery 1.9+ 
+    2.每个jquery所需要引入的 jquery-migrate 版本也不相同
+    3.具体参照：GitHub - jquery/jquery-migrate: APIs and features removed from jQuery core https://github.com/jquery/jquery-migrate
+    
+    <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.0.0.js"></script>
+
+    <script src="http://code.jquery.com/jquery-1.9.0.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.0.js"></script>
+
+    <script src="http://code.jquery.com/jquery-1.11.3.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.4.1.js"></script>
+
+    -->
+    <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    @{
+        Html.RegisterMvcPagerScriptResource();
+    }
+</head>
+<body>
+<div style="text-align: center;">
+    <h1>无刷新分页演示五  -- MVC + SqlHelper + MVCPager</h1>
+</div>
+<div id="container">
+    <div>
+        @using (Ajax.BeginForm("Index", new RouteValueDictionary {{"page", ""}},
+            new AjaxOptions
+            {
+                UpdateTargetId = "MVCpager",
+                HttpMethod = "Get",
+                InsertionMode = InsertionMode.Replace
+            }, new RouteValueDictionary {{"page", "searchForm"}}))
+        {
+            <input placeholder="请输入姓名" type="text" name="name" id="source" style="width: 120px"/>
+            <input type="submit" value="搜索"/>
+        }
+    </div>
+    <div id="MVCpager">
+        @Html.Partial("_Index", Model)
+    </div>
+</div>
+<div style="text-align: center; padding-left: 36%;">
+    <p>@Html.ActionLink("回到首页", "Index", "Home")</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,99 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>无刷新分页</title>
+    <!-- Style -->
+    <link href="~/Content/pagination.css" rel="stylesheet" />
+    <link href="~/Content/tablecloth.css" rel="stylesheet" />
+    <!-- Script -->
+    <script src="~/Scripts/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            getPersonByAjax(1);
+        });
+        //Ajax请求
+        var getPersonByAjax = function (pageNumber) {
+            $.ajax({
+                url: "/PageTwo/AjaxPage?page=" + pageNumber,
+                type: "POST",
+                dataType: "json",
+                success: function (data) {
+                    // 接收数据（data）并绑定
+                    var html = "";
+                    $.each(data.persons,
+                        function (i, item) {
+                            html += "<tr><td>" + item.Id + "</td><td>" + item.Name + "</td></tr>";
+                        });
+                    $("#personList").html(html);
+
+                    //创建分页导航
+                    var pager = data.pager;
+                    html = "<div style='float: left; width: 50%'>共 " + pager.PageCount + " 页 " + pager.TotalItemCount + " 条记录，当前为第 " + pager.PageNumber + " 页</div>";
+                    html += "<div class='pagination'>";
+                    if (pager.HasPreviousPage) {
+                        html += " <a href='#' onclick='getPersonByAjax(1);return false;'>首页</a><a href='#' onclick='getPersonByAjax(" +
+                            (pager.PageNumber - 1) +
+                            ");return false;'>上一页</a>";
+                    } else {
+                        html += "<span class='stop'>首页</span><span class='stop'>上一页</span>";
+                    }
+                    for (var i = 1; i <= pager.PageCount; i++) {
+                        if (i === pageNumber)
+                            html += "<span class='current'>" + i + "</span>";
+                        else
+                            html += "<a href='#' onclick='getPersonByAjax(" + i + ");return false;'>" + i + "</a>";
+                    }
+                    if (pager.HasNextPage) {
+                        html += "<a href='#' onclick='getPersonByAjax(" +
+                            (pager.PageNumber + 1) +
+                            ");return false;'>下一页</a> <a href='#' onclick='getPersonByAjax(" +
+                            pager.PageCount +
+                            ");return false;'>尾页</a>";
+                    } else {
+                        html += "<span class='stop'>下一页</span><span class='stop'>尾页</span>";
+                    }
+                    html += "</div>";
+                    $("#Pagination").html(html);
+                },
+                error: function (result) {
+                    alert(result.statusText);
+                },
+                complete: function (jqXHR) {
+                    jqXHR = null;
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <div style="text-align: center;">
+        <h1>无刷新分页演示二  -- MVC + SqlHelper + PagedList.Mvc</h1>
+    </div>
+    <div id="container">
+        <table id="Result" cellspacing="0" cellpadding="0">
+            <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>名称</th>
+                </tr>
+            </thead>
+            <tbody id="personList"></tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2" id="Pagination"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div style="text-align: center;padding-left:36%;">
+        <p>@Html.ActionLink("回到首页", "Index", "Home")</p>
+    </div>
+</body>
+</html>

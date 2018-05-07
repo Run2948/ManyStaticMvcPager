@@ -1,0 +1,67 @@
+﻿@model IEnumerable<OrginPager.Models.Person>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>无刷新分页</title>
+    <!-- Style -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <!-- Script -->
+    <script src="~/Scripts/jquery-1.4.4.min.js"></script>
+</head>
+<body>
+    <div style="text-align: center;">
+        <h1>分页演示四  -- MVC + SqlHelper + PageHelper</h1>
+    </div>
+    <div class="container-fluid" style="width:50%">
+        <div class="row-fluid">
+            <div class="span12">
+                <table class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>编号</th>
+                            <th>名称</th>
+                        </tr>
+                    </thead>
+                    @if (Model != null && Model.Any())
+                    {
+                        <tbody>
+                            @foreach (var p in Model)
+                            {
+                                <tr>
+                                    <td>@p.Id</td>
+                                    <td>@p.Name</td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="2">
+                                    @PageHelper.CreatePaginateButton(ViewBag.totalCount, 10, "/PageSix/Index")
+                                </td>
+                            </tr>
+                        </tfoot>
+                    }
+                    else
+                    {
+                        <tbody>
+                            <tr>
+                                <th class="text-center">不存在符合条件的数据!</th>
+                            </tr>
+                        </tbody>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+    <div style="text-align: center; padding-left: 36%;">
+        <p>@Html.ActionLink("回到首页", "Index", "Home")</p>
+    </div>
+</body>
+</html>
