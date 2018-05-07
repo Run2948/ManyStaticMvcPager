@@ -1,0 +1,59 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<OrginPager.Models.Person>  
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>刷新分页</title>
+    <!-- Style -->
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+    <link href="~/Content/tablecloth.css" rel="stylesheet" />
+</head>
+<body>
+    <div style="text-align: center;">
+        <h1>刷新分页演示六  -- PagedList.Mvc基础分页</h1>
+    </div>
+    <div id="container">
+        <table id="Result" cellspacing="0" cellpadding="0">
+            @if (Model != null && Model.Any())
+            {
+                <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>名称</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var p in Model)
+                    {
+                        <tr id="personList">
+                            <td>@p.Id</td>
+                            <td>@p.Name</td>
+                        </tr>
+                    }
+                </tbody>
+            }
+            else
+            {
+                <tbody>
+                    <tr>
+                        <th class="text-center" colspan="2">不存在符合条件的数据!</th>
+                    </tr>
+                </tbody>
+            }
+        </table>
+        <div id="Pagination">
+            @Html.PagedListPager(Model, page => Url.Action("List", new { page = page }), new PagedListRenderOptions { LinkToFirstPageFormat = "首页", LinkToPreviousPageFormat = "上一页", LinkToNextPageFormat = "下一页", LinkToLastPageFormat = "尾页", MaximumPageNumbersToDisplay = 5 })          
+        </div>
+    </div>
+    <div style="text-align: center;padding-left:36%;">
+        <p>@Html.ActionLink("回到首页", "Index", "Home")</p>
+    </div>
+</body>
+</html>

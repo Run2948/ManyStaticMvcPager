@@ -147,6 +147,7 @@
     <Content Include="Views\PageFive\Index.cshtml" />
     <Content Include="Views\PageFive\_Index.cshtml" />
     <Content Include="Views\PageTwo\Ajax.cshtml" />
+    <Content Include="Views\PageSix\List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
