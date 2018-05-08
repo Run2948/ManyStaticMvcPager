@@ -1,0 +1,26 @@
+﻿@model IEnumerable<OrginPager.Models.Person>
+
+@{
+    Layout = null;
+}
+
+@if (Model != null && Model.Any())
+{
+    <tr>
+        <th>编号</th>
+        <th>名称</th>
+    </tr>
+    foreach (var p in Model)
+    {
+        <tr>
+            <td>@p.Id</td>
+            <td>@p.Name</td>
+        </tr>
+    }
+}
+else
+{
+    <tr>
+        <td colspan="2">不存在符合条件的数据!</td>
+    </tr>
+}

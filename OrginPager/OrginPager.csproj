@@ -102,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\kkpager_blue.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\pagination.css" />
     <Content Include="Content\tablecloth.css" />
@@ -115,6 +116,7 @@
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jsrender.min.js" />
+    <Content Include="Scripts\kkpager.min.js" />
     <Content Include="Scripts\tablecloth.js" />
     <Content Include="Web.config" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -123,6 +125,8 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\PageFiveController.cs" />
+    <Compile Include="Controllers\PageFourController.cs" />
+    <Compile Include="Controllers\PageSevenController.cs" />
     <Compile Include="Controllers\PageSixController.cs" />
     <Compile Include="Controllers\PageOneController.cs" />
     <Compile Include="Controllers\PageThreeController.cs" />
@@ -148,6 +152,10 @@
     <Content Include="Views\PageFive\_Index.cshtml" />
     <Content Include="Views\PageTwo\Ajax.cshtml" />
     <Content Include="Views\PageSix\List.cshtml" />
+    <Content Include="Views\PageSeven\Index.cshtml" />
+    <Content Include="Views\PageFour\_Index.cshtml" />
+    <Content Include="Views\PageFour\Index.cshtml" />
+    <Content Include="Views\PageFour\_Index - 复制.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

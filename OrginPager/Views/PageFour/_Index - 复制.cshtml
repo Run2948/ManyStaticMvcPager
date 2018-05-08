@@ -1,0 +1,56 @@
+﻿@model IEnumerable<OrginPager.Models.Person>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>刷新分页</title>
+    <!-- Style -->
+    <link href="~/Content/tablecloth.css" rel="stylesheet" />
+    <link href="~/Content/kkpager_blue.css" rel="stylesheet" />
+    <!-- Script -->
+    <script src="~/Scripts/jquery-1.4.4.min.js"></script>
+    <script src="~/Scripts/kkpager.min.js"></script>
+    <script type="text/javascript">
+
+    </script>
+</head>
+<body>
+    <div style="text-align: center;">
+        <h1>刷新分页演示七  -- MVC + SqlHelper + KKPager</h1>
+    </div>
+    <div id="container">
+        <table id="Result" cellspacing="0" cellpadding="0">
+            @if(Model != null && Model.Any())
+            {
+                <tr>
+                    <th>编号</th>
+                    <th>名称</th>
+                </tr>
+                foreach (var p in Model)
+                {
+                    <tr>
+                        <td>@p.Id</td>
+                        <td>@p.Name</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="2">不存在符合条件的数据!</td>
+                </tr>
+            }
+        </table>  
+        <div id="Pagination"></div>
+    </div>
+    <div style="text-align: center;padding-left:36%;">
+        <p>@ViewBag.TotalCount</p>
+    </div>
+</body>
+</html>

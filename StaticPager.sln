@@ -8,7 +8,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{A5DEED54-D732-4C9E-8BB0-22CE3CBDB587}"
 	ProjectSection(SolutionItems) = preProject
 		jquery-plugin-pagination-zh.zip = jquery-plugin-pagination-zh.zip
-		JsRender v0.9.90 (Beta).zip = JsRender v0.9.90 (Beta).zip
+		jquery_pagination-master.zip = jquery_pagination-master.zip
+		jsrender-master.zip = jsrender-master.zip
+		kkpager-master.zip = kkpager-master.zip
 		PagerTest.sql = PagerTest.sql
 	EndProjectSection
 EndProject
